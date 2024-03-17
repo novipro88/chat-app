@@ -1,6 +1,6 @@
-import { getCurrentUser } from "@/app/actions/getCurrentUser";
+import { getCurrentUser } from "@/app/_actions/getCurrentUser";
 import DesktopSidebarHeader from "./DesktopSidebarHeader";
-import getConversations from "@/app/actions/getConversations";
+import getConversations from "@/app/_actions/getConversations";
 import ConversationList from "@/app/conversations/_components/ConversationList";
 
 async function Sidebar({ children }: { children: React.ReactNode }) {
@@ -8,11 +8,11 @@ async function Sidebar({ children }: { children: React.ReactNode }) {
   const conversations = await getConversations();
   return (
     <div className="h-full w-screen flex">
-      <aside className="h-full min-w-[300px] bg-zinc-400">
-        <DesktopSidebarHeader />
-        <ConversationList />
+      <aside className="h-full min-w-[300px]">
+        <DesktopSidebarHeader currentUser={currentUserPrisma} />
+        <ConversationList conversations={conversations} />
       </aside>
-      <main>{children}</main>
+      <main className="w-full flex justify-center">{children}</main>
     </div>
   );
 }
