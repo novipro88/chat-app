@@ -1,10 +1,13 @@
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Toaster } from "@/components/ui/toaster";
 import { useToast } from "@/components/ui/use-toast";
+import { UploadButton, UploadDropzone } from "@/lib/uploadthing";
 import { User } from "@prisma/client";
 import axios from "axios";
 import { Plus } from "lucide-react";
 import { useEffect, useState } from "react";
+import "@uploadthing/react/styles.css";
+import StoryViewer from "./StoryViewer";
 
 interface StatusButtonProps {
   user: User;
@@ -78,7 +81,7 @@ const StatusSidebarButton = ({ user }: StatusSidebarButtonProps) => {
   };
   const handleDeleteStory = () => {
     toggleShowStory();
-    user.statusImageUrl = "";
+    user.statusImageUrl = null;
     axios
       .delete("/api/status")
       .then(() => {})
@@ -89,7 +92,8 @@ const StatusSidebarButton = ({ user }: StatusSidebarButtonProps) => {
 
   return (
     <div>
-      {true ? (
+      <input disabled />
+      {hasStory ? (
         <div>
           <button onClick={toggleShowStory}>
             <StatusButton
@@ -99,13 +103,71 @@ const StatusSidebarButton = ({ user }: StatusSidebarButtonProps) => {
               hasStory={hasStory}
             />
           </button>
-          {showStory && <div>THIS IS STORY VIEWER</div>}
+          {showStory && (
+            <StoryViewer
+              user={user}
+              onClose={() => toggleShowStory()}
+              onDeleteStory={() => handleDeleteStory()}
+            />
+          )}
         </div>
       ) : (
-        // <UploadButton
-        //     content{{}}
-        // />
-        <div>Button</div>
+        <UploadButton
+          content={{
+            button({ ready }) {
+              const statusTitle = ready ? "My Status" : "Loading...";
+              const statusDescription = ready
+                ? "Add to my status"
+                : "Wait a moment";
+              return (
+                <StatusButton
+                  statusTitle={statusTitle}
+                  statusDescription={statusDescription}
+                  user={user}
+                  hasStory={hasStory}
+                />
+              );
+            },
+          }}
+          endpoint="statusImage"
+          appearance={{
+            allowedContent: { display: "none" },
+            button: {
+              border: "none",
+              background: "#fff",
+              cursor: "pointer",
+              height: "100%",
+              width: "100%",
+              justifyContent: "start",
+              outline: "none",
+            },
+          }}
+          onUploadError={(err: Error) => {
+            console.log(err);
+          }}
+          onUploadBegin={() => {
+            toast({
+              title: "Uploading story",
+              description: "Wait a minute...",
+              duration: 30000,
+            });
+          }}
+          onClientUploadComplete={(res) => {
+            axios
+              .post("/api/status", { statusImageUrl: res[0].url })
+              .then((res) => {
+                user.statusImageUrl = res.data.statusImageUrl;
+                toast({
+                  title: "Upload complete!",
+                  className: "bg-green-500",
+                  duration: 2000,
+                });
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          }}
+        />
       )}
       <Toaster />
     </div>
