@@ -42,16 +42,10 @@ const UploadFileButton = ({ conversationId }: UploadFileButtonProps) => {
         endpoint="messageFile"
         appearance={{
           allowedContent: { display: "none" },
-          button: {
-            border: "none",
-            background: "#fff",
-            cursor: "pointer",
-            height: "100%",
-            width: "100%",
-            justifyContent: "start",
-          },
+          button:
+            "!ring-0 border-0 bg-white cursor-pointer h-full w-full justify-start",
         }}
-        className="w-fit"
+        className="uploadbtn"
         onUploadError={(err: Error) => {
           console.log(err);
         }}

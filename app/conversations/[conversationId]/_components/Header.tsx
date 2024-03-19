@@ -6,6 +6,9 @@ import { useClerk } from "@clerk/nextjs";
 import { Conversation, User } from "@prisma/client";
 import axios from "axios";
 import { useMemo, useState } from "react";
+import CallButton from "./CallButton";
+import { Trash } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface HeaderProps {
   conversation: Conversation & {
@@ -25,6 +28,7 @@ const Header = ({
   const [disableFollowButton, setDisableFollowButton] = useState(false);
   const otherUser = useOtherUser(conversation);
   const { user } = useClerk();
+  const router = useRouter();
 
   const { members } = useActiveList();
   const isActive = members.indexOf(otherUser?.phoneNumber!) !== -1;
@@ -47,12 +51,18 @@ const Header = ({
       })
       .then((response: any) => {
         const updatedConversation = response.data;
-        conversation.userIds = updatedConversation.iserIds;
+        conversation.userIds = updatedConversation.userIds;
         setDisableFollowButton(false);
       })
       .catch((error: Error) => {
         console.log(error);
       });
+  };
+
+  const handleDeleteConversation = () => {
+    axios.delete(`/api/conversations/${conversation.id}`).then(() => {
+      router.replace("/conversations");
+    });
   };
 
   return (
@@ -91,7 +101,10 @@ const Header = ({
             // Code for channel case
             <div className="flex w-full">
               <Avatar>
-                <AvatarImage src={conversation.profileImageUrl || undefined} />
+                <AvatarImage
+                  className="object-cover"
+                  src={conversation.profileImageUrl || undefined}
+                />
                 <AvatarFallback>
                   {conversation.name
                     ? conversation.name.charAt(0).toUpperCase()
@@ -138,10 +151,16 @@ const Header = ({
                   {statusText}
                 </div>
               </div>
-              <div className="ml-auto">TO DO: Call button</div>
+              <div className="ml-auto items-center flex">
+                <CallButton isInCall={isInCall} setIsInCall={setIsInCall} />
+              </div>
             </div>
           )}
         </div>
+        <Trash
+          className="cursor-pointer text-zinc-500 p-2 w-10 h-10 hover:bg-zinc-200 rounded-sm"
+          onClick={handleDeleteConversation}
+        />
       </div>
     </>
   );

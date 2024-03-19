@@ -44,8 +44,7 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
 
   const userPhoneNumber = useMemo(
     () => clerkUser?.phoneNumbers[0].phoneNumber,
-    [clerkUser?.phoneNumbers]
-    // [clerkUser?.phoneNumbers[0].phoneNumber]
+    [clerkUser?.phoneNumbers[0].phoneNumber]
   );
 
   const hasSeen = useMemo(() => {

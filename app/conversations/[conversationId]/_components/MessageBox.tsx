@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useMemo } from "react";
 import { format } from "date-fns";
 import { FileText } from "lucide-react";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 
 interface MessageBoxProps {
   data: FullMessageType;
@@ -27,7 +28,12 @@ const MessageBox = ({ data, isLast }: MessageBoxProps) => {
   return (
     <div className={clsx("flex mb-[2px]", isOwn && "justify-end items-start")}>
       {!isOwn && (
-        <div className="ml-16 flex items-start">
+        <Avatar className="ml-12">
+          <AvatarImage src={data.sender.profileImageUrl || undefined} />
+        </Avatar>
+      )}
+      {!isOwn && (
+        <div className="ml-4 flex items-start">
           <img
             src="/images/MessageBubbleTriangleWhite.svg"
             className="transform scale-x-[-1] items-start"
@@ -78,10 +84,10 @@ const MessageBox = ({ data, isLast }: MessageBoxProps) => {
           )}
         </div>
         {/* {isLast && isOwn && seenList.length > 0 && (
-                    <div className="text-xs font-light text-gray-500">
-                        {`Seen by ${seenList}`}
-                    </div>
-                )} */}
+          <div className="text-xs font-light text-gray-500">
+            {`Seen by ${seenList}`}
+          </div>
+        )} */}
       </div>
       {isOwn && (
         <img src="/images/MessageBubbleTriangle.svg" className="mr-16" />

@@ -17,6 +17,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import NewContactSheet from "./NewContactSheet";
 import UserList from "../../UserList";
+import GroupChatModal from "../modals/GroupChatModal";
 
 interface NewChatSheetProps {
   currentUser: User & {
@@ -45,9 +46,13 @@ const NewChatSheet = ({ currentUser }: NewChatSheetProps) => {
 
   return (
     <div>
-      {/* {(currentUser !== undefined) &&
-                <div>Create a group</div>
-            } */}
+      {currentUser !== undefined && (
+        <GroupChatModal
+          users={currentUser.following}
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+        />
+      )}
 
       <Sheet>
         <SheetTrigger asChild>
@@ -61,7 +66,10 @@ const NewChatSheet = ({ currentUser }: NewChatSheetProps) => {
             />
           </button>
         </SheetTrigger>
-        <SheetContent side="left" className="w-[330px] sm:w-[540px] p-0">
+        <SheetContent
+          side="left"
+          className="w-[330px] sm:w-[540px] p-0 overflow-y-auto"
+        >
           <SheetHeader className="bg-primary">
             <div className="flex mt-14 mb-3 items-center">
               <SheetClose asChild>

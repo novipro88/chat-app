@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import MessageBox from "./MessageBox";
 import { pusherClient } from "@/lib/pusher";
 import { find } from "lodash";
+import MediaRoom from "./MediaRoom";
 
 interface BodyProps {
   initialMessages: FullMessageType[];
@@ -15,6 +16,10 @@ const Body = ({ initialMessages, isInCall }: BodyProps) => {
   const bottomRef = useRef<HTMLDivElement>(null);
   const [messages, setMessages] = useState(initialMessages);
   const { conversationId } = useConversation();
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "instant" });
+  }, [isInCall]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -70,6 +75,10 @@ const Body = ({ initialMessages, isInCall }: BodyProps) => {
 
   return (
     <div className="flex-1 overflow-y-auto bg-pink-100">
+      {isInCall && (
+        <MediaRoom chatId={conversationId} video={true} audio={true} />
+      )}
+
       {!isInCall && (
         <div className="pt-24">
           {messages.map((message, i) => (

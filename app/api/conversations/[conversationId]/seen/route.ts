@@ -23,7 +23,6 @@ export async function POST(
       return new NextResponse('Unauthorized', { status: 401 });
     }
 
-
     const unseenMessages = await db.message.findMany({
       where: {
         conversationId,
@@ -35,7 +34,6 @@ export async function POST(
       }
     })
     const unseenMessagesIds = unseenMessages.map(message => message.id)
-
 
     await db.message.updateMany({
       where: {
@@ -60,7 +58,6 @@ export async function POST(
         }
       }
     })
-
 
     await pusherServer.trigger(removePlusSign(currentUserPrisma.phoneNumber), 'conversation:update', { id: conversationId, messages: updatedMessages })
 
