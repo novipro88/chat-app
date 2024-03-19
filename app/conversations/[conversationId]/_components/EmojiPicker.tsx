@@ -1,3 +1,5 @@
+"use client";
+
 import { Popover } from "@/components/ui/popover";
 import { PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
 import { Smile } from "lucide-react";
@@ -22,7 +24,6 @@ const EmojiPicker = ({ onChange }: EmojiPickerProps) => {
         <Picker
           data={data}
           onEmojiSelect={(emoji: any) => {
-            console.log(emoji.native);
             onChange(emoji.native);
           }}
         />
