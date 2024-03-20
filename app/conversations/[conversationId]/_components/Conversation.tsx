@@ -15,7 +15,7 @@ interface ConversationProps {
   messages: FullMessageType[];
 }
 
-const Conversation = ({
+const ConversationPage = ({
   conversation,
   currentUserPrisma,
   messages,
@@ -40,4 +40,4 @@ const Conversation = ({
   );
 };
 
-export default Conversation;
+export default ConversationPage;
