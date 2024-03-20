@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Progress } from "@/components/ui/progress";
 import { User } from "@prisma/client";
@@ -19,6 +20,7 @@ const StoryViewer = ({ user, onClose, onDeleteStory }: StoryViewerProps) => {
 
   useEffect(() => {
     startResetTimer();
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -41,7 +43,7 @@ const StoryViewer = ({ user, onClose, onDeleteStory }: StoryViewerProps) => {
     }
     // Cleanup on unmount or timer reset
     return () => clearInterval(intervalId);
-  }, [deadline, timerRunning]);
+  }, [deadline, onClose, timerRunning]);
 
   const startResetTimer = () => {
     setDeadline(Date.now() + timerInMS);

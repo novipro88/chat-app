@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { Separator } from "@/components/ui/separator";
@@ -14,7 +15,7 @@ const EmptyState = ({ currentUser }: EmptyStateProps) => {
   return (
     <div>
       <div className="flex flex-col w-full justify-center items-center">
-        <img src="/images/Communities.svg" className="w-1/2 mt-36" />
+        <img src="/images/Communities.svg" className="w-1/2 mt-36" alt="" />
         <h2 className="text-3xl m-12 mt-4 mb-4 text-muted-foreground">
           Chat Application
         </h2>

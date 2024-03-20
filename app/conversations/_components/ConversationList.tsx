@@ -31,7 +31,7 @@ const ConversationList: React.FC<ConversationListProps> = ({
     }
     const phoneNumber = removePlusSign(user?.phoneNumbers[0].phoneNumber);
     return phoneNumber;
-  }, [user?.phoneNumbers[0].phoneNumber]);
+  }, [user?.phoneNumbers]);
 
   useEffect(() => {
     if (!pusherKey) {

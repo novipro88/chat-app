@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Conversation, User } from "@prisma/client";
 import { useRouter } from "next/navigation";
@@ -58,6 +59,7 @@ const ChannelBox = ({ channel, currentUser }: ChannelBoxProps) => {
                     rounded-full
                     bg-white
                     "
+          alt=""
         />
         <h4
           className="

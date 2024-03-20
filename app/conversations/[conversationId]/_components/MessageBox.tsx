@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { FullMessageType } from "@/app/_types";
 import { useClerk } from "@clerk/nextjs";
 import clsx from "clsx";
@@ -29,7 +30,7 @@ const MessageBox = ({ data, isLast }: MessageBoxProps) => {
     <div className={clsx("flex mb-[2px]", isOwn && "justify-end items-start")}>
       {!isOwn && (
         <Avatar className="ml-12">
-          <AvatarImage src={data.sender.profileImageUrl || undefined} />
+          <AvatarImage src={data.sender?.profileImageUrl || undefined} />
         </Avatar>
       )}
       {!isOwn && (
@@ -37,6 +38,7 @@ const MessageBox = ({ data, isLast }: MessageBoxProps) => {
           <img
             src="/images/MessageBubbleTriangleWhite.svg"
             className="transform scale-x-[-1] items-start"
+            alt=""
           />
         </div>
       )}
@@ -77,6 +79,7 @@ const MessageBox = ({ data, isLast }: MessageBoxProps) => {
                   <img
                     src={SeenInfo}
                     className="mr-[2px] ml-[2px] w-[16px] h-[11px]"
+                    alt=""
                   />
                 )}
               </div>
@@ -90,7 +93,8 @@ const MessageBox = ({ data, isLast }: MessageBoxProps) => {
         )} */}
       </div>
       {isOwn && (
-        <img src="/images/MessageBubbleTriangle.svg" className="mr-16" />
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src="/images/MessageBubbleTriangle.svg" className="mr-16" alt="" />
       )}
     </div>
   );
