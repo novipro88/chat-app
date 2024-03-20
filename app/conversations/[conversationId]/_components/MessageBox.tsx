@@ -93,7 +93,6 @@ const MessageBox = ({ data, isLast }: MessageBoxProps) => {
         )} */}
       </div>
       {isOwn && (
-        // eslint-disable-next-line @next/next/no-img-element
         <img src="/images/MessageBubbleTriangle.svg" className="mr-16" alt="" />
       )}
     </div>
